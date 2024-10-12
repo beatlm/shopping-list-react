@@ -16,10 +16,7 @@ export function List ({listName }){
 return (
   
   <div className="items-list">
-    <h1 className="header center" >{listName}</h1>
-      <div className="row">
-        <form className="col s12">
-        <div className="row">
+    <h2 className="header center" >{listName}</h2>
           <ul className="collection">
           {
             itemsList.map( ({name, quantity, creationUser} )=> (
@@ -33,20 +30,22 @@ return (
             )
          }
          </ul>
+         <form className="col s12">
+
          <div className="row" >
           <div className="input-field col s8">
             <input id="new_product" type="text" className="validate"/>  
             <label htmlFor="new_product">Nuevo producto</label>
           </div>
           <div className="input-field col s4">
-            <a className="waves-effect waves-light btn"><i className="material-icons left">add_shopping_cart</i></a>
+            <a className="waves-effect waves-light btn-large ">
+            <i className="material-icons center">add_shopping_cart</i>
+             </a>
           </div>
-      </div>
-    </div>
-        </form>
         </div>
+        </form>
         <div className="row">
-          <a className=" col s12 waves-effect waves-light btn">Volver<i className="material-icons right">arrow_back_ios</i></a>
+          <a className=" col s12 waves-effect waves-light btn-large">Volver<i className="material-icons right">arrow_back_ios</i></a>
         </div>
     </div>
 )
