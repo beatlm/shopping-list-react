@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import './Item.css'
-
 export function Item ({name , quantity =1, creationUser }){
 
   const [priority , setPriority]=useState(false);
@@ -11,16 +9,20 @@ export function Item ({name , quantity =1, creationUser }){
     setPriority(!priority);
   }
 return (
-    <div>
-      <p>{name}</p>
-      <p>{quantity}</p>
-      <p>{creationUser}</p>
-      <p>{priorityText}</p>
-      <button onClick={handleComprado}> Cambiar prioridad</button>
-      <button>
-      Borrar
-      </button>
- </div>
+
+    <li className="collection-item">
+  <div className="row">
+
+      <p className="col s2">{name}</p>
+      <p className="col s2">{quantity}</p>
+      <p className="col s2">{creationUser}</p>
+      <p className="col s2">{priorityText}</p>
+      <a className="col s2 waves-effect waves-light btn"><i className="material-icons left">delete</i>Borrar</a>
+      </div>
+
+ </li>
+
+
   )
 }
 
