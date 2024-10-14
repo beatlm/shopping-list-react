@@ -19,20 +19,8 @@ const itemsList = [
 
 
 export function ItemsList ({shopName }){
-  const [itemsList, setItemsList] = useState([]);
+ // const [itemsList, setItemsList] = useState([]);
 
-
-  useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, 'shop\Carrefour'), (snapshot) => {
-      const newItems = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setItemsList(newItems);
-    });
-
-    return () => unsubscribe();
-  }, []);
 
 
 console.log('Se cargan los elementos de la tienda',{shopName});

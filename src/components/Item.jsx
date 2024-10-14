@@ -2,6 +2,7 @@ import { useState } from 'react'
 import '../css/item.css'
 export function Item ({name , quantity =1, creationUser }){
 
+  
   const [priority , setPriority]=useState(false);
 
   const priorityText = priority?  'Alta':'Normal';
