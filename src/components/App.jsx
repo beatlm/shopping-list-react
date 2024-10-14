@@ -1,14 +1,14 @@
-import List from './List'
+import List from '../ItemsList'
+import Login from '../Login'
 
 function App() {
-
   return (
  <>
 <div className='container'>
   <section className="brand-logo">
     <img className="responsive-img" src='/src/assets/logo.png'/>
   </section>
-  <List listName="Carrefour"/>
+  <List listName="Carrefour"/>ç
 </div>
 
  </>
