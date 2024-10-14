@@ -14,7 +14,31 @@ console.log('useState')
     navigate(to);
   };
 
- 
+  useEffect(() => {
+    const fetchShops = async () => {
+      try {
+        const shopsCollection = collection(db, 'shops');
+        const shopsSnapshot = await getDocs(shopsCollection);
+        const shopsList = shopsSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setShops(shopsList);
+        setLoading(false);
+      } catch (err) {
+        console.log("EEERRROOORR")
+          console.error("Error fetching shops: ", err);
+          if (err.code === 'permission-denied') {
+            setError("Permission denied. Please check Firestore security rules.");
+          } else {
+            setError("Failed to load shops. Please try again later.");
+          }
+          setLoading(false);
+      }
+    };
+
+    fetchShops();
+  }, []);
   
 
 
