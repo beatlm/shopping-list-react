@@ -16,7 +16,6 @@ return (
     <p className="col s3">{name}</p>
     <p className="col s2">{quantity}</p>
     <p className="col s3">{creationUser}</p>
-    <p className="col s2">{priorityText}</p>
     <a className="col s1 waves-effect waves-light btn delete" >
         <i className="material-icons ">delete</i>
     </a>

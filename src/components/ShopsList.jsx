@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { db } from "../firebase";
 import { useEffect, useState } from "react";
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, query, getCountFromServer, collectionGroup } from 'firebase/firestore';
 
   
 export function ShopsList (){
@@ -10,48 +10,41 @@ export function ShopsList (){
   const [error, setError] = useState([]);
 
   const [loading, setLoading] = useState(true)
-  const [fieldCount, setFieldCount] = useState(0)
-
   const navigate = useNavigate();
 
-  const handleClick = (to) => {
-    navigate(to);
+  const handleShopClick = (shop) => {
+    navigate(`/shops/${shop.id}`, { state: { shop } });
   };
-
-  useEffect(() => {
-    setLoading(true)
-
-    console.log('useeffect')
-    const fetchShops = async () => {
-
-      try {
-        const shopsCollection = collection(db, 'shops');
-        const shopsSnapshot = await getDocs(shopsCollection);
-        shopsSnapshot.
-        const shopsList = shopsSnapshot.docs.map(doc => ({
-          id: doc.id,
+   
           
-          ...doc.data()
-
-        }));
-
-        setShops(shopsList);
+      useEffect(() => {
+    const fetchShopsWithProductCount = async () => {
+      try {
+        const shopsRef = collection(db, 'shops');
+        const shopSnapshot = await getDocs(shopsRef);
+        
+        const shopsWithProducts = shopSnapshot.docs.map(doc => {
+          const shopData = doc.data();
+          const products = shopData.products || [];
+          return {
+            id: doc.id,
+            ...shopData,
+            productCount: Array.isArray(products) ? products.length : 0
+          };
+        });
+        
+        console.log('Tiendas obtenidas:', shopsWithProducts);
+        setShops(shopsWithProducts);
         setLoading(false);
       } catch (err) {
-          console.error("Error fetching shops: ", err);
-          if (err.code === 'permission-denied') {
-            setError("Permission denied. Please check Firestore security rules.");
-          } else {
-            setError("Failed to load shops. Please try again later.");
-          }
-          setLoading(false);
+        console.error("Error obteniendo tiendas y contando productos:", err);
+        setError(err.message);
+        setLoading(false);
       }
-    }
+    };
 
-    // Limpiar el listener cuando el componente se desmonte
-fetchShops()
+    fetchShopsWithProductCount();
   }, []);
-  
 
 
   
@@ -64,11 +57,13 @@ return (
     <h2 className="header center" >Tiendas</h2>
           <ul className="collection">
           {
-            shopsList.map( ({name} )=> (
-              <li onClick={handleClick({name})} 
+            shopsList.map( (shop)=> (
+              <li
+               key={shop.id} 
+            onClick={() => handleShopClick(shop)}
               className="collection-item row">
-                <p className="col s10">{name}</p>
-                <p className="col s2">{name}</p>
+                <p className="col s10">{shop.name}</p>
+                <p className="col s2">{shop.productCount}</p>
 
               </li>
             ))

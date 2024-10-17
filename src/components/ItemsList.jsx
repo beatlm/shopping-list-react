@@ -1,27 +1,19 @@
 import Item from "./Item";
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from "react";
-import { collection, addDoc, onSnapshot, updateDoc, deleteDoc, doc, QueryDocumentSnapshot } from 'firebase/firestore';
-import { db } from "../firebase";
-const itemsList = [
-  {
-    name:'Arroz',
-    creationUser: 'Bea',
-    key: 'Arroz'
-  } ,
-  {
-    name:'leche',
-    quantity: 6,
-    key: 'Leche'
-  }
-  ]
-  
+import { useLocation, useParams } from 'react-router-dom';
+
 
 
 export function ItemsList ({shopName }){
  // const [itemsList, setItemsList] = useState([]);
 
+ const { id } = useParams();
+ const location = useLocation();
+ const { shop } = location.state || {};
 
+ if (!shop) {
+   return <div>No se encontró información de la tienda.</div>;
+ }
 
 console.log('Se cargan los elementos de la tienda',{shopName});
 
@@ -36,17 +28,15 @@ return (
   <div className="items-list">
     <h2 className="header center" >{shopName}</h2>
           <ul className="collection">
-          {
-            itemsList.map( ({name, quantity, creationUser} )=> (
+          {shop.products.map((product, index) => (
+           
               <Item 
-                key={name}
-                name={name}
-                quantity={quantity}
-                creationUser = {creationUser}>
+                key={index}
+                name={product.name}
+                quantity={product.quantity}
+                creationUser = {product.addedBy}>
               </Item>
-            )
-            )
-         }
+          ))}
          </ul>
          <form className="col s12">
 
