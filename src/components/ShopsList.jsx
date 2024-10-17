@@ -7,7 +7,11 @@ import { addDoc, collection, getDocs } from 'firebase/firestore';
 export function ShopsList (){
 
   const [shopsList, setShops] = useState([]);
-console.log('useState')
+  const [error, setError] = useState([]);
+
+  const [loading, setLoading] = useState(true)
+  const [fieldCount, setFieldCount] = useState(0)
+
   const navigate = useNavigate();
 
   const handleClick = (to) => {
@@ -15,18 +19,25 @@ console.log('useState')
   };
 
   useEffect(() => {
+    setLoading(true)
+
+    console.log('useeffect')
     const fetchShops = async () => {
+
       try {
         const shopsCollection = collection(db, 'shops');
         const shopsSnapshot = await getDocs(shopsCollection);
+        shopsSnapshot.
         const shopsList = shopsSnapshot.docs.map(doc => ({
           id: doc.id,
+          
           ...doc.data()
+
         }));
+
         setShops(shopsList);
         setLoading(false);
       } catch (err) {
-        console.log("EEERRROOORR")
           console.error("Error fetching shops: ", err);
           if (err.code === 'permission-denied') {
             setError("Permission denied. Please check Firestore security rules.");
@@ -35,18 +46,18 @@ console.log('useState')
           }
           setLoading(false);
       }
-    };
+    }
 
-    fetchShops();
+    // Limpiar el listener cuando el componente se desmonte
+fetchShops()
   }, []);
   
 
 
-  console.log('pre useeffect')
-
   
-  console.log('post useState')
-
+  if (loading) {
+    return <div className="text-center p-4">Cargando recetas...</div>
+  }
 return (
   
   <div className="items-list">
@@ -56,7 +67,9 @@ return (
             shopsList.map( ({name} )=> (
               <li onClick={handleClick({name})} 
               className="collection-item row">
-                <p className="col s12">{name}</p>
+                <p className="col s10">{name}</p>
+                <p className="col s2">{name}</p>
+
               </li>
             ))
          }

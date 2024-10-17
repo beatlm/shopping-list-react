@@ -20,6 +20,7 @@ export function Login ( ){
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const app = initializeApp(firebaseConfig);
+  const navigate = useNavigate()
 
   const auth = getAuth(app)
   const [user, loading, error] = useAuthState(auth)
@@ -31,7 +32,8 @@ export function Login ( ){
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log('Usuario ha iniciado sesión:', userCredential.user)
-        useNavigate('shops');
+        navigate('/shops')
+
       })
       .catch((error) => {
         console.error('Error al iniciar sesión:', error)
