@@ -3,7 +3,7 @@
 }
 .logo{
     display: 'inline-block';
-    verticalAlign: 'top';
+    vertical-align: 'top';
     width: auto;
     max-height: 150px;
 }
