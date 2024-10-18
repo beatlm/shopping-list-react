@@ -33,6 +33,7 @@ return (
               <Item 
                 key={index}
                 name={product.name}
+                shopId={shop.id}
                 quantity={product.quantity}
                 creationUser = {product.addedBy}>
               </Item>

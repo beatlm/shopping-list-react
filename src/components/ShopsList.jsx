@@ -13,7 +13,7 @@ export function ShopsList (){
   const navigate = useNavigate();
 
   const handleShopClick = (shop) => {
-    navigate(`/shops/${shop.id}`, { state: { shop } });
+    navigate(`/shops/${shop.name}`, { state: { shop } });
   };
    
           

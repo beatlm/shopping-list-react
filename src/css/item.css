@@ -1,3 +1,9 @@
 .delete{
     margin-top: 10px
 }
+.logo{
+    display: 'inline-block';
+    verticalAlign: 'top';
+    width: auto;
+    max-height: 150px;
+}

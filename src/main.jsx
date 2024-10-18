@@ -6,6 +6,22 @@ import {
     RouterProvider,
   } from "react-router-dom";
 import { ItemsList } from './components/ItemsList.jsx';
+import logo from './assets/logo.png'; // Importa el logo
+import './css/item.css'
+
+const Layout = ({ children }) => {
+  return (
+    <div>
+      <header>
+          <img className='logo' src={logo} alt="Logo" />
+        {/* Aquí puedes añadir una barra de navegación si lo deseas */}
+      </header>
+      <main>{children}</main>
+      <footer>{/* Contenido del footer */}</footer>
+    </div>
+  );
+};
+
 
   const router = createBrowserRouter([
     {
@@ -24,6 +40,8 @@ import { ItemsList } from './components/ItemsList.jsx';
 const root= createRoot(document.getElementById('root'));
 
 root.render(
-<RouterProvider router={router} />
+  <Layout>
 
+<RouterProvider router={router} />
+</Layout>
 )
