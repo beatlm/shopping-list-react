@@ -19,25 +19,34 @@ export function Login ( ){
   };
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const loggedUser = email==='beatlm@gmail.com'? 'Bea':'Rover';
   const app = initializeApp(firebaseConfig);
   const navigate = useNavigate()
 
   const auth = getAuth(app)
-  const [user, loading, error] = useAuthState(auth)
 
+
+  
 
   const signIn = () => {
     console.log('password ',password);
     console.log('email', email);
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log('Usuario ha iniciado sesión:', userCredential.user)
-        navigate('/shops')
 
-      })
+
+})
+
+
+    
       .catch((error) => {
         console.error('Error al iniciar sesión:', error)
       })
+      
+console.log(loggedUser+' loggedUser')
+
+      navigate('/shops',{ state: { loggedUser } })
+
   }
 
 return (

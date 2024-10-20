@@ -6,7 +6,7 @@ import {
     RouterProvider,
   } from "react-router-dom";
 import { ItemsList } from './components/ItemsList.jsx';
-import logo from './assets/logo.png'; // Importa el logo
+import logo from './assets/logo3.png'; // Importa el logo
 import './css/item.css'
 import 'materialize-css/dist/css/materialize.min.css';
 import 'materialize-css/dist/js/materialize.min.js';
