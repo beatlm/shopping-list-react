@@ -101,7 +101,7 @@ export function ShopsList() {
   }
   return (
     <div className="items-list">
-      <h2 className="header center">Tiendas</h2>
+      <h5 className="header center">Tiendas</h5>
       <ul className="collection">
         {shopsList.map((shop) => (
           <li
@@ -109,8 +109,8 @@ export function ShopsList() {
             onClick={() => handleShopClick(shop)}
             className="collection-item row"
           >
-            <p className="col s10">{shop.name}</p>
-            <p className="col s2">{shop.productCount}</p>
+            <p className="flow-text col s10">{shop.name}</p>
+            <p className="flow-text col s2">{shop.productCount}</p>
           </li>
         ))}
       </ul>

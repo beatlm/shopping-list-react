@@ -88,7 +88,7 @@ export function ItemsList() {
   /////
   return (
     <div className="items-list">
-      <h2 className="header center">{shop.name}</h2>
+      <h5 className="header center">{shop.name}</h5>
       <ul className="collection">
         {products.map((product, index) => (
           <Item
