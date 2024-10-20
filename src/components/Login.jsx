@@ -51,6 +51,7 @@ console.log(loggedUser+' loggedUser')
 
 return (
   <div className="row">
+    <p class="fluid-text">Shopping List v3.0</p>
   <form className="col s12">
   <div className="row">
       <div className="input-field col s12">
