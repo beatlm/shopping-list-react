@@ -87,7 +87,7 @@ export function ItemsList() {
 
   /////
   return (
-    <div className="items-list">
+    <div>
       <h5 className="header center">{shop.name}</h5>
       <ul className="collection">
         {products.map((product, index) => (
@@ -101,9 +101,10 @@ export function ItemsList() {
           ></Item>
         ))}
       </ul>
+      <div className="row">
+
       <form className="col s12">
-        <div className="row">
-          <div className="input-field col s8">
+          <div className="input-field col s10">
             <input
               id="new_product"
               value={newProductName}
@@ -113,17 +114,18 @@ export function ItemsList() {
             />
             <label htmlFor="new_product">Nuevo producto</label>
           </div>
-          <div className="input-field col s4">
-            <button
+          <div className="input-field col s2">
+            <button  
               onClick={addProductToShop}
-              className="waves-effect waves-light btn-large "
+              className="col s12 waves-effect waves-light btn-large "
             >
               <i className="material-icons right">add_shopping_cart</i>
               Añadir
             </button>
           </div>
-        </div>
       </form>
+      </div>
+
       <div className="row">
         <button
           className=" col s12 waves-effect waves-light btn-large"

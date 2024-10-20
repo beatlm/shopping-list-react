@@ -38,11 +38,11 @@ export function Item ({name ,shopId,quantity =1, creationUser,onDelete }){
 return (
 
 <li className="collection-item row">
-    <p className="col s3">{name}</p>
-    <p className="col s2">{quantity}</p>
-    <p className="col s3">{creationUser}</p>
-    <button className="col s1 waves-effect waves-light btn delete" >
-        <a onClick={handleDelete} className="material-icons ">delete</a>
+    <p className="flow-text  col s4">{name}</p>
+    <p className="flow-text  col s2">{quantity}</p>
+    <p className="flow-text  col s4">{creationUser}</p>
+    <button className="col s2 waves-effect waves-light btn delete" >
+        <i onClick={handleDelete} className="material-icons ">delete</i>
     </button>
 </li>
 

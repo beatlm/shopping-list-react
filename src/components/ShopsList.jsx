@@ -100,7 +100,7 @@ export function ShopsList() {
     return <div className="header center p-4">Cargando tiendas...</div>;
   }
   return (
-    <div className="items-list">
+    <div>
       <h5 className="header center">Tiendas</h5>
       <ul className="collection">
         {shopsList.map((shop) => (
