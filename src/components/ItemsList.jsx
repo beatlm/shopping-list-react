@@ -6,20 +6,42 @@ import { useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 
 import {
-  getFirestore,
   doc,
-  getDoc,
+  onSnapshot,
   updateDoc,
   arrayUnion,
 } from "firebase/firestore";
 
 export function ItemsList() {
+  //Cargamos los datos que vienen de la pantalla
   const location = useLocation();
   const { shop, loggedUser } = location.state || [];
   console.log(shop + " shop");
   console.log(loggedUser + " loggedUser");
+
+
   const [products, setProducts] = useState([]);
   const [newProductName, setNewProductName] = useState("");
+
+
+
+  useEffect(() => {
+    if (!shop?.id) return;
+
+    const shopRef = doc(db, "shops", shop.id);
+    const unsubscribe = onSnapshot(shopRef, (doc) => {
+      if (doc.exists()) {
+        const shopData = doc.data();
+        setProducts(shopData.products || []);
+      }
+    }, (error) => {
+      console.error("Error fetching products:", error);
+    });
+
+    return () => unsubscribe();
+  }, [shop?.id]);
+
+
 
   if (!shop) {
     return <div>No se encontró información de la tienda.</div>;
@@ -34,58 +56,36 @@ export function ItemsList() {
     navigate(-1); // Navega a la página anterior en el historial
   };
 
-  //Añadir un nuevo producto
   const addProductToShop = async (e) => {
     e.preventDefault();
+    if (!newProductName.trim()) return;
 
-    const db = getFirestore();
-    const shopRef = doc(db, "shops", shop.id);
-
-    // Verificar que la tienda existe
-    const shopDoc = await getDoc(shopRef);
-    if (!shopDoc.exists()) {
-      throw new Error("Tienda no encontrada");
-    }
-    console.log(loggedUser + "loggeduser");
-    console.log(newProductName + "newProductName");
-
-    await updateDoc(shopRef, {
-      products: arrayUnion({
-        addedBy: "Bea",
-        name: newProductName,
-        quantity: 1,
-        priority: 1,
-      }),
-    });
-    setNewProductName("");
-    fetchProducts();
-  };
-
-
-  const handleDelete = (itemId) => {
-    console.log("Eliminamos del listado el item: " + itemId);
-    fetchProducts();
-  };
-
-  ///////
-
-  const fetchProducts = async () => {
-    if (!shop?.id) return;
-    const shopRef = doc(db, "shops", shop.id);
-    const shopDoc = await getDoc(shopRef);
-
-    if (shopDoc.exists()) {
-      const shopData = shopDoc.data();
-      setProducts(shopData.products || []);
-
+    try {
+      const shopRef = doc(db, "shops", shop.id);
+      await updateDoc(shopRef, {
+        products: arrayUnion({
+          addedBy: loggedUser || "Anonymous",
+          name: newProductName,
+          quantity: 1,
+          priority: 1,
+        }),
+      });
+      setNewProductName("");
+    } catch (error) {
+      console.error("Error adding product:", error);
     }
   };
 
-  useEffect(() => {
-    fetchProducts();
-  }, [shop?.id]);
+  const handleDelete = async (productName) => {
+    try {
+      const shopRef = doc(db, "shops", shop.id);
+      const updatedProducts = products.filter(product => product.name !== productName);
+      await updateDoc(shopRef, { products: updatedProducts });
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
 
-  /////
   return (
     <div>
       <h5 className="header center">{shop.name}</h5>
@@ -102,8 +102,7 @@ export function ItemsList() {
         ))}
       </ul>
       <div className="row">
-
-      <form className="col s12">
+        <form className="col s12">
           <div className="input-field col s10">
             <input
               id="new_product"
@@ -115,15 +114,14 @@ export function ItemsList() {
             <label htmlFor="new_product">Nuevo producto</label>
           </div>
           <div className="input-field col s2">
-            <button  
+            <button
               onClick={addProductToShop}
               className="col s12 waves-effect waves-light btn-large "
             >
-              <i className="material-icons right">add_shopping_cart</i>
-              Añadir
+              <i className="material-icons">add_shopping_cart</i>
             </button>
           </div>
-      </form>
+        </form>
       </div>
 
       <div className="row">

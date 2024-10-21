@@ -1,103 +1,86 @@
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
 import { useEffect, useState } from "react";
+
 import {
   addDoc,
   collection,
-  getDocs,
-  query,
-  getCountFromServer,
-  collectionGroup,
+  onSnapshot,
 } from "firebase/firestore";
 import { useLocation } from "react-router-dom";
 
 export function ShopsList() {
   const location = useLocation();
-
+  const navigate = useNavigate();
   const { loggedUser } = location.state || {};
 
   const [shopsList, setShops] = useState([]);
-  const [error, setError] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [newShopName, setNewShopName] = useState("");
 
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+ 
+
+
+  useEffect(() => {
+    console.log('Use effect');
+    // Referencia a la colección de tiendas
+    const shopsRef = collection(db, 'shops');
+
+    // Escucha los cambios en tiempo real
+
+    // Si estás usando Firestore, usa esto en su lugar:
+     const unsubscribe = onSnapshot(shopsRef, (snapshot) => {
+      const updatedShops = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          name: data.name || '',
+          owner: data.owner || '',
+          image: data.image || '',
+          productCount: Array.isArray(data.products) ? data.products.length : 0,
+        };
+      });
+      console.log(updatedShops);
+       setShops(updatedShops);
+       setLoading(false);
+
+     },
+      (error) => {
+      console.error("Error fetching shops:", error);
+      setLoading(false);
+    });
+    //Limpieza al desmontar el componente
+    return () => unsubscribe();
+
+  }, []);
+
 
   const handleShopClick = (shop) => {
     navigate(`/shops/${shop.name}`, { state: { shop, loggedUser } });
   };
-  console.log("hoplist loggedUser" + loggedUser);
 
-  useEffect(() => {
-    fetchShopsWithProductCount();
-  }, []);
 
-  const fetchShopsWithProductCount = async () => {
-    try {
-      const shopsRef = collection(db, "shops");
-      const shopSnapshot = await getDocs(shopsRef);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!newShopName.trim()) return;
 
-      const shopsWithProducts = shopSnapshot.docs.map((doc) => {
-        const shopData = doc.data();
-        const products = shopData.products || [];
-        return {
-          id: doc.id,
-          ...shopData,
-          productCount: Array.isArray(products) ? products.length : 0,
-        };
-      });
-
-      console.log("Tiendas obtenidas:", shopsWithProducts);
-      setShops(shopsWithProducts);
-      setLoading(false);
-    } catch (err) {
-      console.error("Error obteniendo tiendas y contando productos:", err);
-      setError(err.message);
-      setLoading(false);
-    }
-  };
-
-  // fetchShopsWithProductCount();
-
-  async function addShop(newShopName) {
     try {
       const shopsCollection = collection(db, "shops");
-      const newShop = await addDoc(shopsCollection, {
-        image: "",
+      await addDoc(shopsCollection, {
         name: newShopName,
-        owner: "test",
+        owner: loggedUser || "test",
+        image: "",
         products: [],
       });
-
-      console.log("Tienda añadida con ID:", newShop.id);
-      //Borramos el valor del input de la nueva tienda
-      console.log("borramos el valor del input");
       setNewShopName("");
-      console.log("Recargamos el listado de tiendas");
-      fetchShopsWithProductCount();
-
-      return newShop.id;
     } catch (error) {
-      console.error("Error al añadir la tienda:", error);
-      throw error;
-    }
-  }
-
-  // Ejemplo de uso en un componente
-  const handleSubmit = async (e) => {
-    console.log("Añadimos shop" + newShopName);
-    e.preventDefault();
-
-    try {
-      const shopId = await addShop(newShopName);
-      console.log("Se ha añadido OK");
-    } catch (error) {
-      console.log("Ha habido un error: " + error);
+      console.error("Error adding shop:", error);
     }
   };
 
+ 
   if (loading) {
-    return <div className="header center p-4">Cargando tiendas...</div>;
+    return <div className="flex justify-center items-center h-screen">Cargando tiendas...</div>;
   }
   return (
     <div>
