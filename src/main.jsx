@@ -6,16 +6,20 @@ import {
     RouterProvider,
   } from "react-router-dom";
 import { ItemsList } from './components/ItemsList.jsx';
-import logo from './assets/logo3.png';
+import logo from './assets/logo3.png'; // Importa el logo
 import './css/item.css'
-
+import 'materialize-css/dist/css/materialize.min.css';
+import 'materialize-css/dist/js/materialize.min.js';
 
 const Layout = ({ children }) => {
   return (
-    <div className="app-container">
-      <main className="bg-apple-gray-50 min-h-screen">
-        {children}
-      </main>
+    <div>
+      <header>
+          <img className='logo' src={logo} alt="Logo" />
+        {/* Aquí puedes añadir una barra de navegación si lo deseas */}
+      </header>
+      <main>{children}</main>
+      <footer>{/* Contenido del footer */}</footer>
     </div>
   );
 };
