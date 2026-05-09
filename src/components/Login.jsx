@@ -43,47 +43,53 @@ export function Login() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-apple-gray-50">
-      <div className="w-full max-w-sm">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-gradient-to-br from-apple-blue via-purple-500 to-pink-500 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 animate-pulse-glow"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-300/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 animate-pulse-glow" style={{animationDelay: '1s'}}></div>
+      
+      <div className="w-full max-w-sm relative z-10 animate-slideInUp">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="mb-4 inline-block p-3 bg-apple-blue/10 rounded-full">
-            <svg className="w-12 h-12 text-apple-blue" fill="currentColor" viewBox="0 0 24 24">
+          <div className="mb-4 inline-block p-4 bg-white/20 backdrop-blur-md rounded-full border border-white/30 glow-effect">
+            <svg className="w-12 h-12 text-white animate-bounce-subtle" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8m0-12c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4" />
             </svg>
           </div>
-          <h1 className="text-4xl font-bold text-apple-gray-900 mb-2">Shopping List</h1>
-          <p className="text-apple-gray-500 text-base">v4.0</p>
+          <h1 className="text-5xl font-bold text-white mb-2 drop-shadow-lg">Shopping List</h1>
+          <p className="text-white/80 text-base font-medium">v4.0</p>
         </div>
 
         {/* Form */}
-        <div className="apple-card p-6 mb-6">
+        <div className="apple-card p-8 mb-6">
           <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-apple-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-semibold text-apple-gray-700 mb-2">
                 Email
               </label>
               <input
                 id="email"
                 type="email"
-                className="apple-input"
+                className="apple-input-dark"
                 placeholder="Tu correo electrónico"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                disabled={isLoading}
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-apple-gray-700 mb-2">
+              <label htmlFor="password" className="block text-sm font-semibold text-apple-gray-700 mb-2">
                 Contraseña
               </label>
               <input
                 id="password"
                 type="password"
-                className="apple-input"
+                className="apple-input-dark"
                 placeholder="Tu contraseña"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                disabled={isLoading}
               />
             </div>
           </div>
@@ -93,13 +99,23 @@ export function Login() {
         <button
           onClick={signIn}
           disabled={isLoading || !email || !password}
-          className="apple-button-primary w-full mb-4"
+          className="apple-button-primary w-full mb-4 shadow-lg"
         >
-          {isLoading ? "Conectando..." : "Entrar"}
+          {isLoading ? (
+            <span className="inline-flex items-center gap-2">
+              <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Conectando...
+            </span>
+          ) : (
+            "Entrar"
+          )}
         </button>
 
         {/* Footer Text */}
-        <p className="text-center text-xs text-apple-gray-500">
+        <p className="text-center text-sm text-white/70 drop-shadow">
           Usa tus credenciales para acceder
         </p>
       </div>
