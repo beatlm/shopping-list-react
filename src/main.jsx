@@ -7,14 +7,13 @@ import {
   } from "react-router-dom";
 import { ItemsList } from './components/ItemsList.jsx';
 import logo from './assets/logo3.png';
-import './input.css'
 import './css/item.css'
 
 
 const Layout = ({ children }) => {
   return (
     <div className="app-container">
-      <main className="min-h-screen">
+      <main className="bg-apple-gray-50 min-h-screen">
         {children}
       </main>
     </div>
