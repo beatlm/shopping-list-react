@@ -12,17 +12,24 @@ const db = admin.firestore();
 
 exports.handler = async (event) => {
   try {
+    if (event.httpMethod !== "POST") {
+      return {
+        statusCode: 405,
+        body: "Method Not Allowed"
+      };
+    }
+
     // Seguridad básica
     const auth = event.headers.authorization;
 
-    if (auth !== `Bearer ${process.env.API_SECRET}`) {
+   /**  if (auth !== `Bearer ${process.env.API_SECRET}`) {
       return {
         statusCode: 401,
         body: "Unauthorized"
       };
     }
-
-    const body = JSON.parse(event.body);
+*/
+    const body = JSON.parse(event.body || "{}");
 
     const item = body.item?.trim();
 
@@ -35,6 +42,7 @@ exports.handler = async (event) => {
 
     await db.collection("shopping").add({
       text: item,
+      store: "Todas",
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
       done: false
     });
@@ -43,7 +51,8 @@ exports.handler = async (event) => {
       statusCode: 200,
       body: JSON.stringify({
         success: true,
-        item
+        item,
+        store: "Todas"
       })
     };
   } catch (err) {
