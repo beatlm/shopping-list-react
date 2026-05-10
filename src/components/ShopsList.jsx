@@ -6,6 +6,8 @@ import {
   addDoc,
   collection,
   onSnapshot,
+  deleteDoc,
+  doc,
 } from "firebase/firestore";
 import { useLocation } from "react-router-dom";
 
@@ -78,6 +80,19 @@ export function ShopsList() {
     }
   };
 
+  const handleDeleteShop = async (shopId, shopName) => {
+    if (!window.confirm(`¿Estás seguro que quieres eliminar la tienda "${shopName}"?`)) {
+      return;
+    }
+
+    try {
+      const shopRef = doc(db, "shops", shopId);
+      await deleteDoc(shopRef);
+    } catch (error) {
+      console.error("Error deleting shop:", error);
+    }
+  };
+
  
   if (loading) {
     return (
@@ -112,10 +127,22 @@ export function ShopsList() {
                 <div className="col s5 flex items-center">
                   <p className="flow-text font-semibold text-gray-800">{shop.name}</p>
                 </div>
-                <div className="col s5 flex items-center justify-end">
+                <div className="col s4 flex items-center justify-end">
                   <span className="bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg px-3 py-2 text-lg font-bold text-blue-600">
                     {shop.productCount}
                   </span>
+                </div>
+                <div className="col s3 flex items-center justify-end">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteShop(shop.id, shop.name);
+                    }}
+                    className="px-4 py-2 rounded-lg font-semibold text-white text-sm bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 active:scale-95 transition-all"
+                    title="Eliminar tienda"
+                  >
+                    🗑️ Borrar
+                  </button>
                 </div>
               </li>
             ))}

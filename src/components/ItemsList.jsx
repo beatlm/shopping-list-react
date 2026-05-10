@@ -88,6 +88,43 @@ export function ItemsList() {
     }
   };
 
+  const handleDeleteAll = async () => {
+    if (!window.confirm("¿Estás seguro que quieres borrar todos los productos?")) {
+      return;
+    }
+    try {
+      const shopRef = doc(db, "shops", shop.id);
+      await updateDoc(shopRef, { products: [] });
+    } catch (error) {
+      console.error("Error deleting all products:", error);
+    }
+  };
+
+  const handleShareWhatsApp = async () => {
+    if (products.length === 0) {
+      alert("No hay productos para compartir");
+      return;
+    }
+
+    const productList = products
+      .map((product) => `${product.quantity} ${product.name} `)
+      .join(", ");
+    
+    const message = `Productos de ${productList}`;
+
+    // Copiar al portapapeles
+    try {
+      await navigator.clipboard.writeText(productList);
+      alert("Productos copiados al portapapeles");
+    } catch (error) {
+      console.error("Error copying to clipboard:", error);
+    }
+
+    // Abrir WhatsApp Web o app
+    const whatsappURL = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(whatsappURL, "_blank");
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
       <div className="flex items-center justify-between mb-8">
@@ -156,6 +193,23 @@ export function ItemsList() {
           </button>
         </form>
       </div>
+
+      {products.length > 0 && (
+        <div className="flex justify-center gap-4 mt-6 flex-wrap">
+          <button
+            onClick={handleDeleteAll}
+            className="px-6 py-3 rounded-lg font-semibold text-white text-base bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 active:scale-95 transition-all shadow-medium hover:shadow-lg"
+          >
+            🗑️ Borrar todos
+          </button>
+          <button
+            onClick={handleShareWhatsApp}
+            className="px-6 py-3 rounded-lg font-semibold text-white text-base bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 active:scale-95 transition-all shadow-medium hover:shadow-lg"
+          >
+            📱 Compartir en WhatsApp
+          </button>
+        </div>
+      )}
     </div>
   );
 }
