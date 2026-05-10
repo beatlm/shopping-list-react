@@ -1,5 +1,6 @@
 const admin = require("firebase-admin");
 
+
 if (!admin.apps.length) {
   const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT;
   if (!serviceAccount) {
