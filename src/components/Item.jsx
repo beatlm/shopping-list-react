@@ -39,7 +39,7 @@ return (
   <div className="bg-white border-2 border-gray-100 rounded-xl p-4 sm:p-5 transition-all duration-200 hover:shadow-medium hover:border-blue-200 slideUp">
     <div className="flex items-center justify-between gap-4">
       <div className="flex-1 min-w-0">
-        <h2 className="font-semibold text-gray-1200 text-base sm:text-xl truncate">{name}</h2>
+        <h2 className="text-gray-1200 text-base sm:text-3xl truncate">{name}</h2>
       </div>
           <div className="text-center">
        
@@ -49,7 +49,7 @@ return (
         <div className="bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg px-3 py-2 min-w-fit">
        
           <div className="text-center">
-            <p className="text-lg sm:text-xl font-bold text-blue-600">{quantity}</p>
+            <p className="text-lg sm:text-xl  text-blue-600">{quantity}</p>
           </div>
         </div>
         

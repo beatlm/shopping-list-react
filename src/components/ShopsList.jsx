@@ -104,9 +104,9 @@ export function ShopsList() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-2 py-6">
+    <div className="max-w-4xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">Mis Tiendas</h1>
+        <h1 className="text-3xl sm:text-4xl text-center font-bold text-gray-800 mb-2">Mis Tiendas</h1>
       </div>
 
       {shopsList.length === 0 ? (
@@ -125,7 +125,7 @@ export function ShopsList() {
                 className="collection-item row hover:bg-gray-50 cursor-pointer transition-colors duration-200 flex items-center"
               >
                 <div className="col s5 flex items-center">
-                  <p className="flow-text font-semibold text-gray-800">{shop.name}</p>
+                  <p className="flow-text  text-gray-800">{shop.name}</p>
                 </div>
                 <div className="col s4 flex items-center justify-end">
                   <span className="bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg px-3 py-2 text-lg font-bold text-blue-600">

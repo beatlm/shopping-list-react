@@ -110,7 +110,7 @@ export function ItemsList() {
       .map((product) => `${product.quantity} ${product.name} `)
       .join(", ");
     
-    const message = `Productos de ${productList}`;
+    const message = `${productList}`;
 
     // Copiar al portapapeles
     try {
@@ -129,7 +129,7 @@ export function ItemsList() {
     <div className="max-w-4xl mx-auto px-4 py-6">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">{shop.name}</h1>
+          <h1 className="text-3xl text-center sm:text-4xl font-bold text-gray-800 mb-2">{shop.name}</h1>
         </div>
         <button
           onClick={handleGoBack}
@@ -147,7 +147,7 @@ export function ItemsList() {
           <p className="text-gray-400 text-sm">Añade el primero abajo</p>
         </div>
       ) : (
-        <div className="space-y-3 mb-8">
+        <div className="mb-8">
           {products.map((product, index) => (
             <Item
               key={index}
