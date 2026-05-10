@@ -39,7 +39,7 @@ return (
   <div className="bg-white border-2 border-gray-100 rounded-xl p-4 sm:p-5 transition-all duration-200 hover:shadow-medium hover:border-blue-200 slideUp">
     <div className="flex items-center justify-between gap-4">
       <div className="flex-1 min-w-0">
-        <h3 className="font-semibold text-gray-1200 text-base sm:text-lg truncate">{name}</h3>
+        <h2 className="font-semibold text-gray-1200 text-base sm:text-xl truncate">{name}</h2>
       </div>
           <div className="text-center">
        
