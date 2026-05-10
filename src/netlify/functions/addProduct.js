@@ -41,11 +41,26 @@ exports.handler = async (event) => {
       };
     }
 
-    await db.collection("shopping").add({
-      text: item,
-      store: "Todas",
-      createdAt: admin.firestore.FieldValue.serverTimestamp(),
-      done: false
+    const shopsSnapshot = await db.collection("shops")
+      .where("name", "==", "Todas")
+      .limit(1)
+      .get();
+
+    if (shopsSnapshot.empty) {
+      return {
+        statusCode: 404,
+        body: "Shop with name 'Todas' not found."
+      };
+    }
+
+    const shopDoc = shopsSnapshot.docs[0];
+    await shopDoc.ref.update({
+      products: admin.firestore.FieldValue.arrayUnion({
+        addedBy: "API",
+        name: item,
+        quantity: 1,
+        priority: 1
+      })
     });
 
     return {
@@ -53,7 +68,8 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         success: true,
         item,
-        store: "Todas"
+        shopId: shopDoc.id,
+        shopName: "Todas"
       })
     };
   } catch (err) {
