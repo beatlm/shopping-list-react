@@ -1,10 +1,20 @@
 const admin = require("firebase-admin");
 
 if (!admin.apps.length) {
+  const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT;
+  if (!serviceAccount) {
+    throw new Error("FIREBASE_SERVICE_ACCOUNT environment variable is required.");
+  }
+
+  let serviceAccountJson;
+  try {
+    serviceAccountJson = JSON.parse(serviceAccount);
+  } catch (error) {
+    throw new Error("FIREBASE_SERVICE_ACCOUNT is not valid JSON.");
+  }
+
   admin.initializeApp({
-    credential: admin.credential.cert(
-      JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
-    )
+    credential: admin.credential.cert(serviceAccountJson)
   });
 }
 
@@ -19,16 +29,6 @@ exports.handler = async (event) => {
       };
     }
 
-    // Seguridad básica
-    const auth = event.headers.authorization;
-
-   /**  if (auth !== `Bearer ${process.env.API_SECRET}`) {
-      return {
-        statusCode: 401,
-        body: "Unauthorized"
-      };
-    }
-*/
     const body = JSON.parse(event.body || "{}");
 
     const item = body.item?.trim();
