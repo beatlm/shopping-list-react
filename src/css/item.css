@@ -1,9 +1,37 @@
-.delete{
-    margin-top: 10px
+.delete {
+  @apply transition-all duration-200 hover:scale-110 active:scale-95;
 }
-.logo{
-    display: 'inline-block';
-    vertical-align: 'top';
-    width: 100%;
-    max-height: 100px;
+
+.delete:hover {
+  @apply text-red-600;
+}
+
+.logo {
+  @apply w-full h-auto max-h-20 object-contain py-3;
+}
+
+.fadeIn {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    @apply opacity-0;
+  }
+  to {
+    @apply opacity-100;
+  }
+}
+
+.slideUp {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    @apply opacity-0 translate-y-4;
+  }
+  to {
+    @apply opacity-100 translate-y-0;
+  }
 }
