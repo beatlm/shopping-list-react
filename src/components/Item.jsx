@@ -39,14 +39,16 @@ return (
   <div className="bg-white border-2 border-gray-100 rounded-xl p-4 sm:p-5 transition-all duration-200 hover:shadow-medium hover:border-blue-200 slideUp">
     <div className="flex items-center justify-between gap-4">
       <div className="flex-1 min-w-0">
-        <h3 className="font-semibold text-gray-800 text-base sm:text-lg truncate">{name}</h3>
-        <p className="text-sm text-gray-500 mt-1">Añadido por <span className="font-medium text-gray-700">{creationUser}</span></p>
+        <h3 className="font-semibold text-gray-1200 text-base sm:text-lg truncate">{name}</h3>
       </div>
-      
+          <div className="text-center">
+       
+             <p className="text-lg sm:text-l text-white-600">{creationUser}</p>
+         </div>
       <div className="flex items-center gap-3">
         <div className="bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg px-3 py-2 min-w-fit">
+       
           <div className="text-center">
-            <p className="text-xs text-gray-600 font-medium">Cantidad</p>
             <p className="text-lg sm:text-xl font-bold text-blue-600">{quantity}</p>
           </div>
         </div>

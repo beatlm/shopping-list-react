@@ -89,10 +89,9 @@ export function ShopsList() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6">
+    <div className="max-w-4xl mx-auto px-2 py-6">
       <div className="mb-8">
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">Mis Tiendas</h1>
-        <p className="text-gray-600">Gestiona tus listas de compra</p>
       </div>
 
       {shopsList.length === 0 ? (

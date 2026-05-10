@@ -93,7 +93,6 @@ export function ItemsList() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">{shop.name}</h1>
-          <p className="text-gray-600">Añadido por {loggedUser}</p>
         </div>
         <button
           onClick={handleGoBack}
